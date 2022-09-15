@@ -1,0 +1,85 @@
+<head>
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js" >
+    </script>
+
+    <style>
+
+    main {
+      max-width: 900px;
+      width: 150%;
+      height: 40%;
+      border: 2.5px solid #330867;
+      border-radius: 6px;
+      box-shadow: 0 10px 20px rgba(17, 17, 17, 0.125),0 5px 5px rgba(17, 17, 17, 0.25);
+      background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+      margin: 70px 140px;
+    }
+
+    h1{
+      text-align: center;
+    }
+
+    h2{
+      text-align: center;
+    }
+
+    input {
+      width: 85%; 
+      padding: 12px 20px;
+      margin: 8px 10px;
+      box-sizing: border-box;
+      border: 2px solid black;
+      border-radius: 8px;
+    } 
+
+    button, input {
+      float: left;
+      margin: 2px;
+    }
+
+    button{
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 8px;
+      color: black;
+      padding: 10px 28px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+
+    </style>
+</head>
+
+<main>
+  <h1>Url Shortener</h1>
+  <form id="post-form">
+    {% csrf_token %}
+  <input type="text" name="link" id="link" placeholder="Shorten your link...">
+  <div class="buttons">
+    <button type="submit" id="shorten">shorten</button>
+  </div>
+  </form>
+  
+  <section id="section"><h2></h2></section>
+    
+</main>
+
+<script type="text/javascript">
+  $(document).on('submit','#post-form',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/create',
+      data:{
+        link:$('#link').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        $('h2').html("www.surls.ga/"+data)
+      }
+    });
+  });
+</script>
